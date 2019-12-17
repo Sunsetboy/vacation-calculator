@@ -1,0 +1,24 @@
+{
+  "name": "vacation",
+  "description": "Vacation calculator",
+  "version": "1.0.0",
+  "authors": [
+    {
+      "name": "Michael Krutikov",
+      "email": "misha.sunsetboy@gmail.com",
+      "role": "Developer"
+    }
+  ],
+  "license": "MIT",
+  "require": {
+    "php": "^7.2"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^8"
+  },
+  "autoload": {
+    "psr-4": {
+      "Vacation\\": "src/"
+    }
+  }
+}
