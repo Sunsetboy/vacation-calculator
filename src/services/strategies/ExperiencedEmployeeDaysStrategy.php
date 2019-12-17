@@ -11,7 +11,7 @@ class ExperiencedEmployeeDaysStrategy implements BaseVacationDaysStrategyInterfa
     public function getBaseVacationDays(Employee $employee, $year)
     {
         $employeeAge = $employee->getAge($year);
-        $bonusDaysForAge = ceil(($employeeAge - self::AGE_OF_START_GETTING_BONUS_DAYS) / 5);
+        $bonusDaysForAge = ceil(($employeeAge + 1 - self::AGE_OF_START_GETTING_BONUS_DAYS) / 5);
 
         return $bonusDaysForAge + StandardDaysStrategy::STANDARD_VACATION_DAYS;
     }

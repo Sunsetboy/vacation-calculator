@@ -18,6 +18,12 @@ class VacationCalculator
     /** @var int $year */
     protected $year;
 
+    /**
+     * VacationCalculator constructor.
+     * @param Employee $employee
+     * @param integer $year
+     * @throws Exception
+     */
     public function __construct(Employee $employee, $year)
     {
         $this->employee = $employee;
@@ -25,6 +31,11 @@ class VacationCalculator
         $this->baseVacationDaysStrategy = $this->resolveVacationDaysStrategy();
     }
 
+    /**
+     * Calculates vacation days for the person and the year
+     * @return int
+     * @throws Exception
+     */
     public function calculateEmployeeVacationDays(): int
     {
         $baseVacationDays = $this->calculateBaseVacationDays();
@@ -36,6 +47,7 @@ class VacationCalculator
     /**
      * Resolves which strategy is suitable for calculating base yearly vacation days for the employee
      * @return BaseVacationDaysStrategyInterface
+     * @throws Exception
      */
     protected function resolveVacationDaysStrategy(): BaseVacationDaysStrategyInterface
     {
@@ -50,6 +62,10 @@ class VacationCalculator
         return new StandardDaysStrategy();
     }
 
+    /**
+     * Calculates base vacation days for the person and the year, regardless of actual worked days
+     * @return int
+     */
     protected function calculateBaseVacationDays(): int
     {
         return $this->baseVacationDaysStrategy->getBaseVacationDays($this->employee, $this->year);
@@ -63,7 +79,7 @@ class VacationCalculator
     protected function calculatePartOfYearWithContract(): float
     {
         $yearStart = (new \DateTime())->setDate($this->year, 1, 1);
-        $yearEnd = (new \DateTime())->setDate($this->year, 12, 31);
+        $yearEnd = (new \DateTime())->setDate($this->year+1, 1, 1);
 
         // the employee started job after the specified year
         if ($this->employee->getContractStartDate() > $yearEnd) {
@@ -75,7 +91,7 @@ class VacationCalculator
             return 1;
         }
 
-        $monthsOfWorkInCurrentYear = $this->employee->getContractStartDate()->diff($yearStart)->m;
+        $monthsOfWorkInCurrentYear = $yearEnd->diff($this->employee->getContractStartDate())->m;
 
         return $monthsOfWorkInCurrentYear / 12;
     }

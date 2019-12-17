@@ -15,9 +15,6 @@ class Employee
     /** @var integer|null $specialContractVacationDays */
     protected $specialContractVacationDays = null;
 
-    /** @var BaseVacationDaysStrategyInterface $baseVacationDaysStrategy */
-    protected $baseVacationDaysStrategy;
-
     /**
      * @return \DateTime
      */
@@ -90,8 +87,16 @@ class Employee
         return $this;
     }
 
-    public function getAge($currentYear): int
+    /**
+     * Returns employee's age at the beginning of the year or null if employee was born after it
+     * @param int $currentYear
+     * @return int|null
+     * @throws \Exception
+     */
+    public function getAge($currentYear): ?int
     {
-        return (new \DateTime())->setDate($currentYear, 1,1)->diff($this->birthDate)->y;
+        $yearStart = (new \DateTime())->setDate($currentYear, 1, 1);
+
+        return ($yearStart > $this->birthDate) ? $yearStart->diff($this->birthDate)->y : null;
     }
 }

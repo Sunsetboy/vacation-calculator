@@ -13,11 +13,10 @@ $year = (int)$argv[1];
 
 $employeeRepository = new EmployeeRepository();
 $employees = $employeeRepository->fetchAll();
-//var_dump($employees);
 
 foreach ($employees as $employee) {
     $vacationDaysCalculator = new VacationCalculator($employee, $year);
     $vacationDays = $vacationDaysCalculator->calculateEmployeeVacationDays();
 
-    echo $employee->getName() . ' (age ' . $employee->getAge($year) . '):' . $vacationDays . ' days' . PHP_EOL;
+    echo $employee->getName() . ' (age ' . $employee->getAge($year) . '): ' . $vacationDays . ' days' . PHP_EOL;
 }
